@@ -107,18 +107,10 @@ You can download a docker image of the version that was used for the IROS 2021 p
     docker pull mmoll/hyperplan:latest
     docker tag mmoll/hyperplan:latest hyperplan:latest
 
+put pyperplan-fetch in examples folder
 Run docker in terminal:
 ```
-DATE=`date +"%F-%T"`
-SRC_MOUNT=${HOME}/Documents/hyperplan/examples
-TARGET_MOUNT=/ws_hyperplan/data
-
-docker run \
-   --rm \
-   --name hyperplan \
-   --mount type=bind,source="${SRC_MOUNT}",target="${TARGET_MOUNT}" \
-   hyperplan ${testing} "$@" \
-   >> ./logs/hyperplan-${DATE}.log
+sh ./examples/robowflow-docker-win.sh /ws_hyperplan/data/hyperplan-fetch/box_pick-convergence.yaml
 ```
 
 To be figure out configurations

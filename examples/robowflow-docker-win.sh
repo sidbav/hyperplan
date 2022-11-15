@@ -1,5 +1,6 @@
 DATE=`date +"%F-%T"`
-SRC_MOUNT=${HOME}/Documents/hyperplan/examples
+SRC_MOUNT=/mnt/e/Code/hyperplan/examples
+echo ${SRC_MOUNT}
 TARGET_MOUNT=/ws_hyperplan/data
 
 docker run \
