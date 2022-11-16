@@ -60,7 +60,7 @@ def analyze(dir):
     #print(inc_run.info.keys())
     #inc_test_loss = inc_run.info['test accuracy']
     
-    print(f'Best found configuration with loss = {inc_loss}:')
+    print('Best found configuration with loss =', {inc_loss}, ':')
     print(inc_config)
     #print('It achieved accuracies of %f (validation) and %f (test).'%(1-inc_loss, inc_test_loss))
     

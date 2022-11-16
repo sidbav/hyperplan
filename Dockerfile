@@ -20,4 +20,3 @@ RUN python3.8 -m venv venv && \
     . ./venv/bin/activate && \
     pip install --isolated wheel==0.38.0 setuptools==59.8.0 Cython==0.29.32 numpy==1.19.0 scipy==1.6.3 && \
     pip install --isolated -r src/hyperplan/requirements.txt
-ENTRYPOINT ["./src/hyperplan/scripts/hyperplan_docker_entrypoint.sh"]
