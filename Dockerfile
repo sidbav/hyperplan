@@ -7,7 +7,7 @@ COPY . hyperplan
 # See https://github.com/settings/tokens for details
 RUN apt-get update && \
     apt-get -y upgrade && \
-    apt-get -y install python-catkin-tools python3.8-dev python3.8-venv && \
+    apt-get -y install python-catkin-tools python3.8-dev python3.8-venv vim && \
     wstool init . && \
     wstool merge hyperplan/hyperplan.rosinstall && \
     wstool update

@@ -101,16 +101,24 @@ Note the format in the `examples/fetch` directory:
   change for a different robot are the planning group and the projection.
 
 ### Docker
+To build docker, run the following command:
 
-You can download a docker image of the version that was used for the IROS 2021 paper via these commands:
-
-    docker pull mmoll/hyperplan:latest
-    docker tag mmoll/hyperplan:latest hyperplan:latest
-
-put pyperplan-fetch in examples folder
-Run docker in terminal:
 ```
-sh ./examples/robowflow-docker-win.sh /ws_hyperplan/data/hyperplan-fetch/box_pick-convergence.yaml
+docker build -t hyperplan .
 ```
 
-To be figure out configurations
+
+Run the following command 
+To run the docker container run the following command:
+```
+./start_docker.sh
+```
+
+Before running any of the benchmarks, make sure to create a `.env` file, follow the `EXAMPLE.env` file as a guide.
+
+To run the benchmarks run the following command:
+```
+./run.sh -c <CONFIG_FILE> -n <NUM_WORKERS> -r <RUN_ID>
+```
+
+The results will be saved in the directory where the hyperplan-fetch file is stored.
