@@ -82,7 +82,7 @@ def analyze(dir):
 
 if __name__ == "__main__":
     if len(sys.argv)==1:
-        print(f'Usage: {sys.argv[0]} <results_dir1> [<results_dir2> ...]\n')
+        print('Usage: {} <results_dir1> [<results_dir2> ...]\n'.format(sys.argv[0]))
         exit(-1)
     for dir in sys.argv[1:]:
         analyze(dir)
