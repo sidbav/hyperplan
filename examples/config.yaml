@@ -1,5 +1,5 @@
-output_dir: "/Users/sidbav/Documents/hyperplan"
-input_dir: "/Users/sidbav/Documents/hyperplan"
+output_dir: "~/hyperplan"
+input_dir: "~/hyperplan"
 loss_function: "speed"
 backend: "omplapp"
 random_fraction: 0.5
