@@ -1,0 +1,9 @@
+output_dir: "~/hyperplan"
+input_dir: "~/hyperplan"
+loss_function: "speed"
+backend: "omplapp"
+random_fraction: 0.5
+max_budget: 729
+min_budget: 0.3333333
+n_iterations: 7
+
