@@ -114,7 +114,7 @@ class RobowflexBaseWorker(BaseWorker):
 
         for scene, request in zip(self.scenes, self.requests):
             if "projection" in config:
-                group = yaml.load(request.open())["group_name"]
+                group = yaml.full_load(request.open())["group_name"]
                 projection = "projection_evaluator: " + self.PROJECTIONS[self.robot][group][config["projection"]]
             else:
                 projection = "# no projection"

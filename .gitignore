@@ -2,4 +2,6 @@
 venv
 __pycache__
 logs
-/examples/hyperplan-fetch
+.env
+nohup.out
+benchmark.db*
