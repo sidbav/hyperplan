@@ -60,7 +60,7 @@ def analyze(dir):
     #print(inc_run.info.keys())
     #inc_test_loss = inc_run.info['test accuracy']
     
-    print(f'Best found configuration with loss = {inc_loss}:')
+    print('Best found configuration with loss =', {inc_loss}, ':')
     print(inc_config)
     #print('It achieved accuracies of %f (validation) and %f (test).'%(1-inc_loss, inc_test_loss))
     
@@ -82,7 +82,7 @@ def analyze(dir):
 
 if __name__ == "__main__":
     if len(sys.argv)==1:
-        print(f'Usage: {sys.argv[0]} <results_dir1> [<results_dir2> ...]\n')
+        print('Usage: {} <results_dir1> [<results_dir2> ...]\n'.format(sys.argv[0]))
         exit(-1)
     for dir in sys.argv[1:]:
         analyze(dir)
