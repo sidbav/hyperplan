@@ -131,10 +131,14 @@ tail -f nohup.out
 ```
 
 The results will be saved in the directory where the hyperplan-fetch file is stored.
-```diff
--How to kill a process?
+
+## Kill Python Processes:
 ```
-## Run Analysis Test:
+ps aux
+pgrep python3
+kill -9 `pgrep python3`
+```
+## Run Test:
 ```
 cd src/hyperplan
 ./run_test.sh -c <PATH_TO_CONFIG_FILE> -r <RUN_ID>
@@ -145,4 +149,12 @@ To access test log:
 tail -f test_nohup.out
 ```
 
+## Run Analysis:
+```
+export PATH=${HOME}/bin:${PATH}
+source /ws_hyperplan/devel/setup.bash
+source /ws_hyperplan/venv/bin/activate
 
+cd /hyperplan/scripts
+python3 analysis.py /ws_hyperplan/src/hyperplan/hyperplan-fetch/results/box_pick/execution_time/0
+```
