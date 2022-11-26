@@ -6,3 +6,4 @@ logs
 nohup.out
 benchmark.db*
 /examples/hyperplan-fetch
+/hyperplan-fetch

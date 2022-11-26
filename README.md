@@ -100,14 +100,15 @@ Note the format in the `examples/fetch` directory:
   `<robot>_moveit_config` package for a robot. The only things you'd have to
   change for a different robot are the planning group and the projection.
 
-### Docker
-To build docker, run the following command:
+# Docker
+## Build Docker
+run the following command:
 
 ```
 docker build -t hyperplan .
 ```
 
-
+## Run Docker
 Run the following command 
 To run the docker container run the following command:
 ```
@@ -116,9 +117,32 @@ To run the docker container run the following command:
 
 Before running any of the benchmarks, make sure to create a `.env` file, follow the `EXAMPLE.env` file as a guide.
 
-To run the benchmarks run the following command:
+
+## Run Benchmarks 
+run the following command:
 ```
-./run.sh -c <CONFIG_FILE> -n <NUM_WORKERS> -r <RUN_ID>
+cd src/hyperplan
+./run.sh -c <PATH_TO_CONFIG_FILE> -n <NUM_WORKERS> -r <RUN_ID>
+```
+
+To access log:
+```
+tail -f nohup.out
 ```
 
 The results will be saved in the directory where the hyperplan-fetch file is stored.
+```diff
+-How to kill a process?
+```
+## Run Analysis Test:
+```
+cd src/hyperplan
+./run_test.sh -c <PATH_TO_CONFIG_FILE> -r <RUN_ID>
+```
+
+To access test log:
+```
+tail -f test_nohup.out
+```
+
+

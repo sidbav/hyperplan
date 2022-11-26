@@ -35,4 +35,4 @@ then
 	exit 2
 fi
 
-(nohup ./scripts/hyperplan_cmdline.py --run_id ${run_id} --test "${config}" ) &
+(nohup ./scripts/hyperplan_cmdline.py --run_id ${run_id} --test "${config}") > test_nohup.out & 
