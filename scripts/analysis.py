@@ -39,6 +39,7 @@ import sys
 import matplotlib.pyplot as plt
 import hpbandster.core.result as hpres
 import hpbandster.visualization as hpvis
+from os import path
 
 def analyze(dir):
     # load the example run from the log files
@@ -68,17 +69,23 @@ def analyze(dir):
     # Let's plot the observed losses grouped by budget,
     hpvis.losses_over_time(all_runs)
     plt.yscale("log")
+    plt.savefig(path.join(dir, 'loss_over_time.png'))
     # the number of concurent runs,
     hpvis.concurrent_runs_over_time(all_runs)
+    plt.title('Number of Concurrent Runs Over Time')
+    plt.savefig(path.join(dir, 'concurrent_runs_over_time.png'))
     # and the number of finished runs.
     hpvis.finished_runs_over_time(all_runs)
+    plt.title('Number of Finished Runs Over Time')
+    plt.savefig(path.join(dir, 'finished_runs_over_time.png'))
     # This one visualizes the spearman rank correlation coefficients of the losses
     # between different budgets.
     hpvis.correlation_across_budgets(result)
+    plt.savefig(path.join(dir, 'correlation_across_budgets.png'))
     # For model based optimizers, one might wonder how much the model actually helped.
     # The next plot compares the performance of configs picked by the model vs. random ones
     hpvis.performance_histogram_model_vs_random(all_runs, id2conf)
-    plt.show()
+    plt.savefig(path.join(dir, 'performance_his_model_vs_random.png'))
 
 if __name__ == "__main__":
     if len(sys.argv)==1:
