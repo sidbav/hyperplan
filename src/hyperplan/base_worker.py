@@ -169,6 +169,8 @@ class BaseWorker(Worker, ABC):
             # process progress properties
             if self.selected_progress_properties:
                 match = self.LOG_PROGRESS_PROPERTIES_REGEXP.search(log)
+                logging.debug(f"match {match}")
+                logging.debug(f"log {log}")
                 properties = match.group(1).splitlines()
                 values = [
                     [

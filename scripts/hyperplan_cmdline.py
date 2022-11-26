@@ -113,6 +113,7 @@ if __name__ == "__main__":
         id2conf = logged_results.get_id2config_mapping()
         selected_id = logged_results.get_incumbent_id()
         best_config = id2conf[selected_id]["config"]
+        logging.debug(f"Best Config: {best_config}")
 
         WorkerType = worker_types[(config["backend"], config["loss_function"])]
         NS = hpns.NameServer(
