@@ -772,3 +772,39 @@ class ExecutionTimeSpeedWorker(RobowflexBaseWorker):
     @staticmethod
     def get_configspace():
         return SpeedWorker.get_configspace()
+
+class PathLengthWorker(RobowflexBaseWorker):
+    def __init__(self, config, *args, **kwargs):
+        super().__init__(
+            config,
+            {
+                "path_length": "length REAL",
+                "goal_distance": "goal_distance REAL",
+            },
+            *args,
+            **kwargs,
+        )
+
+    def individual_losses(self, budget, results):
+        # path length
+        return [
+            quantile_with_fallback(
+                np.array(pl[:-1]),
+                self.MAX_COST + d[-1] * d[-1]
+                if np.isfinite(d[-1])
+                else 2 * self.MAX_COST,
+            )
+            for pl, d in zip(
+                results["path_length"], results["goal_distance"]
+            )
+        ]
+
+    def progress_loss(self, budget, progress_data):
+        raise Exception("Not implemented for this class")
+
+    def duration_runs(self, budget):
+        return budget, 0
+
+    @staticmethod
+    def get_configspace():
+        return SpeedWorker.get_configspace()
