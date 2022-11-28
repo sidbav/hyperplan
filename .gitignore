@@ -7,3 +7,4 @@ nohup.out
 benchmark.db*
 /examples/hyperplan-fetch
 /hyperplan-fetch
+test_nohup.out

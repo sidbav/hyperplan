@@ -773,40 +773,20 @@ class ExecutionTimeSpeedWorker(RobowflexBaseWorker):
     def get_configspace():
         return SpeedWorker.get_configspace()
 
-class MemoryWorker(RobowflexBaseWorker):
-    def __init__(self, config, *args, **kwargs):
-        super().__init__(
-            config,
-            {
-                "path_length": "length REAL",
-                "goal_distance": "goal_distance REAL",
-            },
-            *args,
-            **kwargs,
-        )
-        self.simplify = 1
-        self.speed = 10
-
-    def individual_losses(self, budget, results):
-        # path length (=duration in seconds) + square of goal distance
-        return [
-            quantile_with_fallback(
-                np.array(pl[:-1]) / self.speed,
-                self.MAX_COST + d[-1] * d[-1] / (self.speed * self.speed)
-                if np.isfinite(d[-1])
-                else 2 * self.MAX_COST,
-            )
-            for pl, d in zip(
-                results["path_length"], results["goal_distance"]
-            )
-        ]
+class MemoryWorker(OptWorker):
+    def area_under_curve(self, time, cost):
+        # the cost over the interval [0, time_to_first_solution] is set to be
+        # equal to cost of first solution
+        ind = np.isfinite(cost)
+        cost = np.array(cost)[ind]
+        cost = np.insert(cost, 0, cost[0])
+        return np.trapz(cost)
 
     def progress_loss(self, budget, progress_data):
-        raise Exception("Not implemented for this class")
-
-    def duration_runs(self, budget):
-        return budget, 0
-
-    @staticmethod
-    def get_configspace():
-        return SpeedWorker.get_configspace()
+        ind = np.isfinite(cost)
+        cost = np.array(cost)[ind]
+        cost = np.insert(cost, 0, cost[0])
+        return [
+            self.area_under_curve(self, t, c) / budget
+            for t, c in zip(progress_data["time"], progress_data["cost"])
+        ]
