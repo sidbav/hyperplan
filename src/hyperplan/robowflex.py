@@ -126,6 +126,7 @@ class RobowflexBaseWorker(BaseWorker):
             os.close(cfg_file_handle)
             try:
                 log_dir = abs_path + "_logs/"
+                print("log_dir: ", log_dir)
                 cmdline = [
                     "rosrun",
                     "hyperplan",
@@ -783,10 +784,41 @@ class MemoryWorker(OptWorker):
         return np.trapz(cost)
 
     def progress_loss(self, budget, progress_data):
-        ind = np.isfinite(cost)
-        cost = np.array(cost)[ind]
-        cost = np.insert(cost, 0, cost[0])
+        # ind = np.isfinite(cost)
+        # cost = np.array(cost)[ind]
+        # cost = np.insert(cost, 0, cost[0])
         return [
             self.area_under_curve(self, t, c) / budget
             for t, c in zip(progress_data["time"], progress_data["cost"])
         ]
+
+class CombinationWorker(RobowflexBaseWorker):
+    def __init__(self, config, *args, **kwargs):
+        super().__init__(
+            config,
+            {
+                "time": "time REAL",
+                "path_length": "length REAL",
+                "goal_distance": "goal_distance REAL",
+            },
+            *args,
+            **kwargs,
+        )
+        self.simplify = 1
+        self.speed = 10
+
+        self.speedworker = SpeedWorker()
+        self.speedkinodynamicworker = SpeedKinodynamicWorker()
+        self.executiontimespeedworker = ExecutionTimeSpeedWorker()
+        self.optworker = OptWorker()
+        self.memoryworker = MemoryWorker()
+    def individual_losses(self, budget, results):
+        return self.speedworker.individual_losses(budget, results) + \
+            self.speedkinodynamicworker.individual_losses(budget, results) + \
+            self.executiontimespeedworker.individual_losses(budget, results) + \
+            self.optworker.individual_losses(budget, results) + \
+            self.memoryworker.individual_losses(budget, results)
+    def progress_loss(self, budget, progress_data):
+        return self.optworker.individual_losses(budget, results) + \
+            self.memoryworker.individual_losses(budget, results)
+
