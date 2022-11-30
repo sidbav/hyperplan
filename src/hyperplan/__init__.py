@@ -46,4 +46,6 @@ worker_types = {
     ("robowflex", "opt"): robowflex.OptWorker,
     ("robowflex", "execution_time"): robowflex.ExecutionTimeSpeedWorker,
     ("robowflex", "memory"): robowflex.MemoryWorker,
+    ("robowflex", "iteration"): robowflex.IterationWorker,
+    ("robowflex", "combination"): robowflex.LinearCombinationWorker,
 }

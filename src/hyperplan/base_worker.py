@@ -54,6 +54,7 @@ class BaseWorker(Worker, ABC):
         r"[\d]+ progress properties for each run\n([\w\s]+)\n[\d]+ runs\n([\w\s.;,+-]+)\n[.]\n"
     )
     MAX_COST = 1e5
+    MAX_ITERATION = 1000
 
     def __init__(
         self,
@@ -152,6 +153,7 @@ class BaseWorker(Worker, ABC):
     def update_results(self, results, budget, log_path):
         with open(log_path, "r") as logfile:
             log = logfile.read()
+            print(log)
             match = self.LOG_PROPERTIES_REGEXP.search(log)
             # process run properties
             properties = match.group(1).splitlines()
@@ -170,6 +172,7 @@ class BaseWorker(Worker, ABC):
             if self.selected_progress_properties:
                 match = self.LOG_PROGRESS_PROPERTIES_REGEXP.search(log)
                 properties = match.group(1).splitlines()
+                # print(properties)
                 values = [
                     [
                         [float(x) for x in tple.split(",")[:-1]]
