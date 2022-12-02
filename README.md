@@ -158,3 +158,10 @@ source /ws_hyperplan/venv/bin/activate
 cd /hyperplan/scripts
 python3 analysis.py /ws_hyperplan/src/hyperplan/hyperplan-fetch/results/box_pick/execution_time/0
 ```
+## R analysis:
+```
+sudo apt install r-base
+R
+install.packages("ggplot2")
+Rscript ./scripts/hyperplan_vis.R ./hyperplan-fetch/results/box_pick/iteration/5
+```

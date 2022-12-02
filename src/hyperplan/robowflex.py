@@ -839,34 +839,42 @@ class IterationWorker(RobowflexBaseWorker):
             **kwargs,
         )
 
-    def problem_loss(self, iteration):
+    def problem_loss(self, progress_loss, goal_distance):
         return np.quantile(
             [
                 pl
                 if np.isfinite(pl)
-                else self.MAX_ITERATION
-                for pl in iteration
+                else self.MAX_COST + gd
+                if np.isfinite(gd)
+                else 2 * self.MAX_COST
+                for pl, gd in zip(progress_loss, goal_distance)
             ],
             0.7,
         )
 
     def individual_losses(self, _, results):
         return [
-            self.problem_loss(pls)
-            for pls in results["iteration"]
+            self.problem_loss(pls, gds)
+            for pls, gds in zip(results["_progress_loss"], results["goal_distance"])
         ]
 
     def area_under_curve(self, iteration):
         # the iteration over the interval [0, time_to_first_solution] is set to be
         # equal to iteration of first solution
+        if not iteration:
+            return np.nan
         ind = np.isfinite(iteration)
         iteration = np.array(iteration)[ind]
+        if iteration.size == 0:
+            return np.nan
         iteration = np.insert(iteration, 0, iteration[0])
+        print("iteration: ", np.trapz(iteration))
         return np.trapz(iteration)
 
     def progress_loss(self, budget, progress_data):
+        print("iteration: ", progress_data["iteration"])
         return [
-            self.area_under_curve(c) / budget
+            self.area_under_curve(c)
             for c in progress_data["iteration"]
         ]
     def duration_runs(self, budget):
