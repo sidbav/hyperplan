@@ -1191,7 +1191,7 @@ class LinearCombinationWorker(RobowflexBaseWorker):
             {
                 "time": "time REAL",
                 "path_length": "length REAL",
-                "goal_distanc e": "goal_distance REAL",
+                "goal_distance": "goal_distance REAL",
             },
             *args,
             selected_progress_properties={
@@ -1204,10 +1204,10 @@ class LinearCombinationWorker(RobowflexBaseWorker):
     def individual_losses(self, budget, results):
         return [t + p + g for t, p, g in zip(results['time'],results['path_length'], results['goal_distance'])]
     def progress_loss(self, budget, progress_data):
-        return [t + p + g for t, p, g in zip(results['p_time'],results['cost'], results['iteration'])]
+        return [t[0] + p[0] + g[0] for t, p, g in zip(progress_data['p_time'],progress_data['cost'], progress_data['iteration'])]
     def duration_runs(self, budget):
         return budget, 0
 
     @staticmethod
     def get_configspace():
-        return SpeedWorker.get_configspace()
+        return OptWorker.get_configspace()

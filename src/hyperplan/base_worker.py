@@ -171,30 +171,31 @@ class BaseWorker(Worker, ABC):
             # process progress properties
             if self.selected_progress_properties:
                 match = self.LOG_PROGRESS_PROPERTIES_REGEXP.search(log)
-                properties = match.group(1).splitlines()
-                # print(properties)
-                values = [
-                    [
-                        [float(x) for x in tple.split(",")[:-1]]
-                        for tple in line.split(";")[:-1]
-                    ]
-                    for line in match.group(2).splitlines()
-                ]
-                progress_data = defaultdict(list)
-                for key, val in self.selected_progress_properties.items():
-                    if val in properties:
-                        progress_data[key] = [
-                            [tple[properties.index(val)] for tple in run]
-                            for run in values
+                if match:
+                    properties = match.group(1).splitlines()
+                    # print(properties)
+                    values = [
+                        [
+                            [float(x) for x in tple.split(",")[:-1]]
+                            for tple in line.split(";")[:-1]
                         ]
-                    else:
-                        logging.warning(
-                            f'progress property "{val}" was not found in log'
-                        )
-                        progress_data[key] = len(values) * [[np.nan]]
-                results["_progress_loss"].append(
-                    self.progress_loss(budget, progress_data)
-                )
+                        for line in match.group(2).splitlines()
+                    ]
+                    progress_data = defaultdict(list)
+                    for key, val in self.selected_progress_properties.items():
+                        if val in properties:
+                            progress_data[key] = [
+                                [tple[properties.index(val)] for tple in run]
+                                for run in values
+                            ]
+                        else:
+                            logging.warning(
+                                f'progress property "{val}" was not found in log'
+                            )
+                            progress_data[key] = len(values) * [[np.nan]]
+                    results["_progress_loss"].append(
+                        self.progress_loss(budget, progress_data)
+                    )
         if not self.keep_log_files:
             os.remove(log_path)
         return results
